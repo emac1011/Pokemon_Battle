@@ -9,6 +9,7 @@ function renderPlayer(player) {
     return;
   }
 
+
   if (player.error) {
     container.innerHTML = `<p>${player.error}</p>`;
     return;
@@ -56,8 +57,7 @@ function renderTrainer() {
 
 
 function renderOpponent(opponent) {
-  const container = document.getElementById("opponent");
-
+  const container = document.getElementById("opponent-container");
   if (!container) return;
 
   if (opponent.loading) {
@@ -71,24 +71,19 @@ function renderOpponent(opponent) {
   }
 
   if (!opponent.data) {
-    container.innerHTML = `
-      <h2>Buscar Oponente</h2>
-      <input type="text" id="search-input" placeholder="Nombre del Pokémon" />
-      <button id="search-btn">Buscar</button>
-      <p id="search-error"></p>
-    `;
+    container.innerHTML = `<p>Busca un oponente para empezar</p>`;
     return;
   }
 
   container.innerHTML = `
-    <h2>${opponent.data.name.toUpperCase()}</h2>
+    <h3>${opponent.data.name.toUpperCase()}</h3>
     <img src="${opponent.data.sprites.front_default}" />
     <p>HP: ${getStat(opponent.data, "hp")}</p>
     <p>Attack: ${getStat(opponent.data, "attack")}</p>
     <p>Defense: ${getStat(opponent.data, "defense")}</p>
     <p>Speed: ${getStat(opponent.data, "speed")}</p>
 
-    <h3>Moves</h3>
+    <h4>Moves</h4>
     <ul>
       ${opponent.moves.map(m => `<li>${m.name}</li>`).join("")}
     </ul>
