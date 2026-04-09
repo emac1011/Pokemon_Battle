@@ -1,0 +1,56 @@
+body {
+  background: #0d0d0d;
+  color: #eaeaea;
+  font-family: 'Courier New', monospace;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #6a00ff;
+}
+
+section {
+  border: 2px solid #2a0a3a;
+  padding: 15px;
+  margin: 10px;
+  background: #111;
+}
+
+#player, #opponent {
+  width: 45%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#player, #opponent {
+  box-shadow: 0 0 10px #6a00ff;
+  border-radius: 8px;
+}
+
+img {
+  image-rendering: pixelated;
+  width: 120px;
+}
+
+button {
+  background: #6a00ff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background: #444;
+  cursor: not-allowed;
+}
+
+body[data-type="dragon"] {
+  --main-color: #6a00ff;
+}
+
+body[data-type="dark"] {
+  --main-color: #2a0a3a;
+}

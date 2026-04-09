@@ -1,7 +1,7 @@
 const TRAINER = {
   // ── QUIÉN ERES ──
   name: "Emanuel",
-  hometown: "San José",
+  hometown: "Pueblo Paleta",
   catchphrase: "El poder real está en la estrategia.",
 
   // ── TU POKÉMON ──

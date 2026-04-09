@@ -18,7 +18,14 @@ export async function fetchPokemon(name) {
 
 export async function fetchMoves(moveUrls) {
   try {
-    const promises = moveUrls.map((url) => fetch(url).then((res) => res.json()));
+    const promises = moveUrls.map((url) =>
+      fetch(url).then((res) => {
+        if (!res.ok) {
+          throw new Error("Move fetch failed");
+        }
+        return res.json();
+      })
+    );
 
     const results = await Promise.allSettled(promises);
 
@@ -35,3 +42,4 @@ export async function fetchMoves(moveUrls) {
 export function getFirstMoves(pokemonData) {
   return pokemonData.moves.slice(0, 4).map((m) => m.move.url);
 }
+
