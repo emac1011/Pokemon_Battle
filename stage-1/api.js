@@ -1,17 +1,22 @@
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon/";
 
-export async function fetchPokemon(name) {
+export async function fetchPokemon(name, options = {}) {
   try {
-    const res = await fetch(BASE_URL + name.toLowerCase());
+    const res = await fetch(BASE_URL + name.toLowerCase(), options);
 
     if (!res.ok) {
       throw new Error("Pokemon not found");
     }
 
     const data = await res.json();
-
     return data;
+
   } catch (error) {
+    //  IMPORTANTE: dejamos pasar AbortError sin romper nada
+    if (error.name === "AbortError") {
+      throw error;
+    }
+
     throw error;
   }
 }

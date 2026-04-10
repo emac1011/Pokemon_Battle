@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stage 2 - Battle</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <h1>Battle Arena</h1>
+
+  <!-- PLAYER -->
+  <section id="player-section">
+    <h2 id="player-name"></h2>
+    <img id="player-sprite" />
+    <div class="hp-bar">
+      <div id="player-hp"></div>
+    </div>
+  </section>
+
+  <!-- ARENA -->
+  <section id="arena">
+    <div id="opponent-row" class="row">
+      <div class="cell" data-pos="1"></div>
+      <div class="cell" data-pos="2"></div>
+      <div class="cell" data-pos="3"></div>
+    </div>
+
+    <div id="player-row" class="row">
+      <div class="cell" data-pos="1"></div>
+      <div class="cell" data-pos="2"></div>
+      <div class="cell" data-pos="3"></div>
+    </div>
+  </section>
+
+  <!-- OPPONENT -->
+  <section id="opponent-section">
+    <h2 id="opponent-name"></h2>
+    <img id="opponent-sprite" />
+    <div class="hp-bar">
+      <div id="opponent-hp"></div>
+    </div>
+  </section>
+
+  <!-- CONTROLS -->
+  <section id="controls">
+    <button id="attack-btn">Attack</button>
+    <div id="cooldown-bar"></div>
+
+    <button id="ultimate-btn">Ultimate</button>
+  </section>
+
+  <!-- LOG -->
+  <section id="log"></section>
+
+  <!-- RESET -->
+  <button id="reset-btn" style="display:none;">Battle Again</button>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
