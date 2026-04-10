@@ -16,16 +16,26 @@
     <p id="trainer-phrase"></p>
   </section>
 
+ <section id="battlefield">
   <section id="player">
     <!-- Aquí se renderiza tu Pokémon -->
   </section>
 
   <section id="opponent">
   <h2>Oponente</h2>
+  <div id="opponent-container"></div>
+</section>
+
+<!-- Buscador fuera de la tarjeta -->
+<div id="opponent-search" style="margin: 10px 0; text-align: center;">
   <input id="search-input" type="text" placeholder="Buscar Pokémon">
   <button id="search-btn">Buscar</button>
-  
-  <div id="opponent-container"></div>
+</div>
+
+<!-- Botón ¡A la batalla! -->
+<div style="text-align:center; margin-top:10px;">
+  <button id="battle-btn" disabled>¡A la batalla!</button>
+</div>
 </section>
 
   <script type="module" src="./main.js"></script>

@@ -21,7 +21,18 @@ const state = {
 let searchTimeout = null;
 let currentController = null;
 
-// --- Cargar Pokémon del jugador ---
+// ---------------------------
+// Helper: actualizar botón ¡A la batalla!
+// ---------------------------
+function updateBattleBtn() {
+  const btn = document.getElementById("battle-btn");
+  if (!btn) return;
+  btn.disabled = !(state.player.data && state.opponent.data);
+}
+
+// ---------------------------
+// Cargar Pokémon del jugador
+// ---------------------------
 async function loadPlayerPokemon() {
   state.player.loading = true;
   state.player.error = null;
@@ -39,10 +50,13 @@ async function loadPlayerPokemon() {
   } finally {
     state.player.loading = false;
     render(state);
+    updateBattleBtn(); // ✅ Actualizamos el botón
   }
 }
 
-// --- Cargar Pokémon del oponente ---
+// ---------------------------
+// Cargar Pokémon del oponente
+// ---------------------------
 async function loadOpponentPokemon(name) {
   if (!name) return;
 
@@ -74,12 +88,13 @@ async function loadOpponentPokemon(name) {
   } finally {
     state.opponent.loading = false;
     render(state);
+    updateBattleBtn(); // ✅ Actualizamos el botón
   }
 }
 
-
-
-// --- Debounce helper ---
+// ---------------------------
+// Debounce helper
+// ---------------------------
 function debounce(fn, delay = 400) {
   let timeout;
   return (...args) => {
@@ -88,12 +103,15 @@ function debounce(fn, delay = 400) {
   };
 }
 
-// --- Manejo de input y botones ---
+// ---------------------------
+// Inicialización y listeners
+// ---------------------------
 function init() {
   loadPlayerPokemon();
 
   const input = document.getElementById("search-input");
   const btn = document.getElementById("search-btn");
+  const battleBtn = document.getElementById("battle-btn");
 
   if (input) {
     input.addEventListener(
@@ -112,6 +130,16 @@ function init() {
     });
   }
 
+  if (battleBtn) {
+    battleBtn.addEventListener("click", () => {
+      // Guardar datos de ambos Pokémon en localStorage
+      localStorage.setItem("playerData", JSON.stringify(state.player));
+      localStorage.setItem("opponentData", JSON.stringify(state.opponent));
+
+      // Redirigir a Stage 2
+      window.location.href = "stage-2/index.html";
+    });
+  }
 
   // Cargar último oponente guardado
   const lastOpponent = localStorage.getItem("lastOpponent");
@@ -120,7 +148,5 @@ function init() {
     if (input) input.value = lastOpponent;
   }
 }
-
-
 
 document.addEventListener("DOMContentLoaded", init);

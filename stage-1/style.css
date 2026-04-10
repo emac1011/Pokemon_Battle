@@ -1,67 +1,10 @@
-body {
-  background: #0d0d0d;
-  color: #eaeaea;
-  font-family: 'Courier New', monospace;
-  margin: 0;
-  padding: 20px;
-}
-
-h1 {
-  text-align: center;
-  color: #6a00ff;
-}
-
-section {
-  border: 2px solid #2a0a3a;
-  padding: 15px;
-  margin: 10px;
-  background: #111;
-}
-
-#player, #opponent {
-  width: 45%;
-  display: inline-block;
-  vertical-align: top;
-}
-
-#player, #opponent {
-  box-shadow: 0 0 10px #6a00ff;
-  border-radius: 8px;
-}
-
-img {
-  image-rendering: pixelated;
-  width: 120px;
-}
-
-button {
-  background: #6a00ff;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-}
-
-button:disabled {
-  background: #444;
-  cursor: not-allowed;
-}
-
-body[data-type="dragon"] {
-  --main-color: #6a00ff;
-}
-
-body[data-type="dark"] {
-  --main-color: #2a0a3a;
-}
-
 /* ---------------------------
    GLOBAL RESET Y BODY
 --------------------------- */
 body {
   margin: 0;
   font-family: 'Press Start 2P', monospace;
-  background-color: #0a0a0a; /* fondo oscuro */
+  background-color: #0a0a0a; /* fondo negro */
   color: #eee;
   display: flex;
   flex-direction: column;
@@ -75,20 +18,30 @@ body {
 --------------------------- */
 h1 {
   font-size: 1.5rem;
-  color: #8b84ff; /* azul Hydreigon */
+  color: #00aaff; /* azul Hydreigon */
+  text-align: center;
   margin-bottom: 1rem;
+}
+
+/* ---------------------------
+   CONTENEDOR DE BATALLA HORIZONTAL
+--------------------------- */
+#battlefield {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
 /* ---------------------------
    SECCIONES
 --------------------------- */
 section {
-  background-color: #1e1e2f; /* card oscuro */
+  background-color: #111; /* card oscuro */
   padding: 1rem;
-  border: 2px solid #333;
+  border: 2px solid #222;
   border-radius: 8px;
-  margin-bottom: 1rem;
-  width: 300px;
   text-align: center;
 }
 
@@ -96,33 +49,42 @@ section {
    TRAINER CARD
 --------------------------- */
 #trainer {
-  border-color: #6e5dfc;
+  border-color: #00aaff;
+  margin-bottom: 20px;
 }
 
 #trainer h2 {
-  color: #6e5dfc;
+  color: #00aaff;
 }
 
 /* ---------------------------
    PLAYER / OPPONENT CARDS
 --------------------------- */
 #player, #opponent {
-  border-color: #4f46e5;
-  
+  width: 300px;
+  border: 2px solid #00aaff; /* mismo color que trainer */
+  border-radius: 8px;
+  background-color: #0d0d0d;
+  box-shadow: 3px 3px 0px #000, 6px 6px 0px #000;
+  padding: 10px;
+  text-align: center;
 }
 
 #player h2, #opponent h2 {
-  color: #4f46e5;
+  color: #00aaff;
   text-transform: uppercase;
   margin-bottom: 0.5rem;
 }
 
+/* ---------------------------
+   IMÁGENES
+--------------------------- */
 #player img, #opponent img {
   image-rendering: pixelated;
-  width: 120px;
-  height: 120px;
-  margin-bottom: 0.5rem;
-  border: 2px solid #666;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 10px;
+   border: 2px solid #00aaff;
 }
 
 /* ---------------------------
@@ -138,10 +100,10 @@ ul {
 }
 
 li {
-  background-color: #2a2a3e;
+  background-color: #001122;
   margin: 0.2rem 0;
   padding: 0.2rem;
-  border: 1px solid #444;
+  border: 1px solid #004466;
   border-radius: 4px;
   font-size: 0.7rem;
 }
@@ -152,40 +114,39 @@ li {
 input[type="text"] {
   width: 70%;
   padding: 0.4rem;
-  border: 2px solid #444;
+  border: 2px solid #004466;
   border-radius: 4px;
   background-color: #111;
-  color: #eee;
+  color: #00aaff;
   font-family: monospace;
   margin-bottom: 0.5rem;
 }
 
 button {
   padding: 0.4rem 0.8rem;
-  border: 2px solid #666;
+  border: 2px solid #004466;
   border-radius: 4px;
-  background-color: #333;
-  color: #eee;
+  background-color: #0d0d0d;
+  color: #00aaff;
   cursor: pointer;
   font-family: monospace;
   text-transform: uppercase;
 }
 
 button:hover {
-  background-color: #555;
-  border-color: #8b84ff;
+  background-color: #004466;
+  color: #ffffff;
 }
 
 /* ---------------------------
    TYPE-THEMED PLAYER
 --------------------------- */
-body[data-type="dragon"] #player {
-  border-color: #7c3aed;
-  box-shadow: 0 0 8px #7c3aed;
+body[data-type] #player {
+  border-color: #00aaff;
 }
 
-body[data-type="dragon"] #player h2 {
-  color: #7c3aed;
+body[data-type] #player h2 {
+  color: #00aaff;
 }
 
 /* ---------------------------
@@ -199,4 +160,34 @@ p.loading {
 p.error {
   color: #ff5555;
   font-weight: bold;
+}
+
+
+#opponent-search {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+#battle-btn {
+  padding: 0.6rem 1rem;
+  border: 2px solid #00aaff;
+  border-radius: 4px;
+  background-color: #0d0d0d;
+  color: #00aaff;
+  font-family: monospace;
+  cursor: pointer;
+}
+
+#battle-btn:disabled {
+  background-color: #111;
+  color: #444;
+  cursor: not-allowed;
+}
+
+#battle-btn:hover:enabled {
+  background-color: #004466;
+  color: #fff;
 }
