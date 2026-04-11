@@ -47,4 +47,3 @@ export async function fetchMoves(moveUrls) {
 export function getFirstMoves(pokemonData) {
   return pokemonData.moves.slice(0, 4).map((m) => m.move.url);
 }
-

@@ -12,7 +12,29 @@ export function render(state) {
   renderLog(state);
   renderControls(state);
   renderEnd(state);
+  applyHitEffects(state);
 }
+
+function applyHitEffects(state) {
+  const sprite = document.getElementById("player-sprite");
+  const container = document.getElementById("player-section");
+
+  if (!sprite || !container) return;
+
+  // limpiar clases anteriores
+  sprite.classList.remove("shake");
+  container.classList.remove( "dodge-flash");
+
+  if (state.hitEffect === "hit") {
+    sprite.classList.add("shake");
+    
+  }
+
+  if (state.hitEffect === "dodge") {
+    container.classList.add("dodge-flash");
+  }
+}
+
 
 // ---------------------------
 // PLAYER / OPPONENT INFO
