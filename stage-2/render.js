@@ -125,25 +125,32 @@ function renderLog(state) {
 // ---------------------------
 // CONTROLS
 // ---------------------------
+// ---------------------------
+// CONTROLES (MOVES 2x2 GRID)
+// ---------------------------
 function renderControls(state) {
   const attackContainer = document.getElementById("moves-container");
 
   if (!attackContainer) return;
-
   if (!state.player?.moves) return;
 
-  attackContainer.innerHTML = state.player.moves
-    .slice(0, 4)
-    .map((move, i) => {
-      const disabled = state.attackOnCooldown || state.phase !== "fighting";
+  const disabled = state.attackOnCooldown || state.phase !== "fighting";
 
-      return `
-        <button class="move-btn" data-move="${i}" ${disabled ? "disabled" : ""}>
-          ${move.name}
-        </button>
-      `;
-    })
-    .join("");
+  const moves = state.player.moves.slice(0, 4);
+
+  attackContainer.innerHTML = `
+    <div class="moves-grid">
+      ${moves
+        .map((move, i) => {
+          return `
+            <button class="move-btn" data-move="${i}" ${disabled ? "disabled" : ""}>
+              ${move.name}
+            </button>
+          `;
+        })
+        .join("")}
+    </div>
+  `;
 }
 
 // ---------------------------

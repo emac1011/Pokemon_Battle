@@ -312,3 +312,43 @@ button:disabled {
 .dodge-flash {
   box-shadow: 0 0 20px rgba(0, 255, 120, 0.6);
 }
+
+body {
+  font-family: "Press Start 2P", monospace;
+}
+
+/* ---------------------------
+   GRID 2x2 MOVES
+--------------------------- */
+.moves-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+  width: 100%;
+}
+
+.move-btn {
+  padding: 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  border: 2px solid #00aaff;
+  background: #111;
+  color: #00aaff;
+  cursor: pointer;
+}
+
+.move-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.move-btn:hover:enabled {
+  background: #00aaff;
+  color: #000;
+}
+
+.moves-grid {
+  max-width: 300px;
+  margin: 0 auto;
+}
