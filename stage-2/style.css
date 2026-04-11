@@ -9,6 +9,10 @@ body {
   background: black;
 }
 
+#battle-arena {
+  font-family: 'Press Start 2P', monospace;
+}
+
 #battle-layout {
   position: relative;
 
