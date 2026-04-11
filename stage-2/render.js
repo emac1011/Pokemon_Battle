@@ -52,36 +52,61 @@ function renderHP(state) {
 // ARENA (CLAVE)
 // ---------------------------
 function renderArena(state) {
-  const playerCells = document.querySelectorAll("#player-row .cell");
-  const opponentCells = document.querySelectorAll("#opponent-row .cell");
+  const sprite = document.getElementById("player-sprite");
+  const container = document.getElementById("player-arena");
+  const cells = document.querySelectorAll(".arena-cell");
 
-  playerCells.forEach(cell => {
-    const pos = Number(cell.dataset.pos);
+  if (!sprite || !container) return;
 
-    cell.classList.remove("active", "incoming", "hit");
+  // ---------------------------
+  // MOVER SPRITE (centrado perfecto)
+  // ---------------------------
+  const targetCell = document.querySelector(
+    `.arena-cell[data-pos="${state.playerPosition}"]`
+  );
 
-    // jugador
-    if (pos === state.playerPosition) {
-      cell.classList.add("active");
-    }
+  if (targetCell) {
+    const cellRect = targetCell.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
 
-    // ataque entrante
-    if (pos === state.incomingAttack) {
-      cell.classList.add("incoming");
-    }
-  });
+    const spriteWidth = sprite.offsetWidth || 120;
 
-  opponentCells.forEach(cell => {
-    const pos = Number(cell.dataset.pos);
+    const left =
+      cellRect.left -
+      containerRect.left +
+      cellRect.width / 2 -
+      spriteWidth / 2;
 
+    sprite.style.left = left + "px";
+  }
+
+  // ---------------------------
+  // DIRECCIÓN (FIX REAL)
+  // Hydreigon mirando al enemigo
+  // ---------------------------
+  sprite.style.transform = "scaleX(-1)";
+  sprite.style.transformOrigin = "center bottom";
+
+  // ---------------------------
+  // LIMPIAR ATAQUES
+  // ---------------------------
+  cells.forEach(cell => {
     cell.classList.remove("incoming");
-
-    if (pos === state.incomingAttack) {
-      cell.classList.add("incoming");
-    }
   });
-}
 
+  // ---------------------------
+  // ATAQUE ENEMIGO
+  // ---------------------------
+  if (state.incomingAttack) {
+    const target = document.querySelector(
+      `.arena-cell[data-pos="${state.incomingAttack}"]`
+    );
+
+    if (target) {
+      target.classList.add("incoming");
+    }
+  }
+}
 // ---------------------------
 // LOG
 // ---------------------------

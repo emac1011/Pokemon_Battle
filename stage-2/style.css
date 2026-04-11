@@ -209,3 +209,80 @@ button:disabled {
   top: 10px;
   left: 10px;
 }
+
+/* ---------------------------
+   PLAYER ARENA (DENTRO TARJETA)
+--------------------------- */
+#player-arena {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  margin: 10px 0;
+}
+
+/* celdas visibles */
+.arena-cell {
+  position: absolute;
+  top: 0;
+  width: 33.33%;
+  height: 100%;
+  border: 1px solid #222;
+}
+
+/* posiciones */
+.arena-cell[data-pos="1"] { left: 0; }
+.arena-cell[data-pos="2"] { left: 33.33%; }
+.arena-cell[data-pos="3"] { left: 66.66%; }
+
+/* sprite grande */
+#player-sprite {
+  position: absolute;
+  bottom: 0;
+  width: 120px;
+  image-rendering: pixelated;
+  transition: left 0.15s ease;
+}
+
+/* ataque enemigo */
+.arena-cell.incoming {
+  background: rgba(255, 0, 0, 0.3);
+}
+
+/* ---------------------------
+   ARENA PLAYER (3 ZONAS)
+--------------------------- */
+#player-arena {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  margin: 10px 0;
+}
+
+/* zonas invisibles pero funcionales */
+.arena-cell {
+  position: absolute;
+  top: 0;
+  width: 33.33%;
+  height: 100%;
+}
+
+/* posiciones */
+.arena-cell[data-pos="1"] { left: 0; }
+.arena-cell[data-pos="2"] { left: 33.33%; }
+.arena-cell[data-pos="3"] { left: 66.66%; }
+
+/* sprite principal */
+#player-sprite {
+  position: absolute;
+  bottom: 0;
+  width: 120px;
+  image-rendering: pixelated;
+  transition: left 0.15s ease;
+  pointer-events: none;
+}
+
+/* ataque enemigo */
+.arena-cell.incoming {
+  background: rgba(255, 0, 0, 0.3);
+  border-radius: 6px;
+}
