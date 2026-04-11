@@ -1,80 +1,89 @@
-# ⚡ Mi Batalla Pokémon
+# 🎮 Pokémon Battle Project
 
-Aplicación de batalla Pokémon en JavaScript puro usando PokeAPI.  
-El proyecto está dividido en dos fases: selección de equipo y combate en tiempo real.
-
----
-
-## 👤 Entrenador
-
-- Nombre: (TU NOMBRE)
-- Ciudad natal: (TU CIUDAD)
-- Frase característica: "(TU FRASE)"
+Proyecto de batalla Pokémon en dos etapas (Stage 1 y Stage 2) utilizando JavaScript vanilla, PokeAPI y manipulación avanzada del DOM.
 
 ---
 
-## 🔥 Pokémon favorito
+## 🚀 Demo
 
-Mi Pokémon favorito es Hydreigon porque representa fuerza, caos y estrategia.  
-Me gusta su diseño oscuro y su estilo agresivo en combate.
+🎥 Video explicación del proyecto ( 5 min):
+https://www.loom.com/share/bc246d100805434e8491b972ff1de0e1
 
----
+ Versión en vivo (GitHub Pages):
 
-## 💥 Movimiento definitivo
-
-Nombre: (TU ULTIMATE MOVE NAME)
-
-Descripción:  
-Un ataque final que representa el poder máximo del entrenador.
-
-Inspiración:  
-Basado en la idea de un ataque sin escape que termina la batalla instantáneamente.
 
 ---
 
-## 🧩 Conceptos principales
+## 📌 Descripción
 
-### 1. Gestión de estado global
-- Stage 1: `main.js`
-- Stage 2: `battle.js`
-- Todo el render depende de un único objeto `state`
+Este proyecto simula una batalla Pokémon interactiva donde el usuario puede:
 
----
-
-### 2. Llamadas asíncronas a API
-- `stage-1/api.js`
-- Uso de `async/await`
-- `Promise.allSettled` para movimientos
-- `AbortController` para búsquedas
+- Buscar Pokémon usando la PokeAPI
+- Ver estadísticas, sprites y movimientos
+- Seleccionar un oponente
+- Iniciar una batalla en tiempo real
+- Luchar contra un enemigo con sistema de vida y daño
+- Usar ataques normales y un ataque ultimate
+- Ver animaciones y efectos visuales en combate
 
 ---
 
-### 3. Sistema de batalla en tiempo real
-- `stage-2/battle.js`
-- Ataques enemigos con `setTimeout` recursivo
-- Movimiento del jugador en 3 posiciones
-- Sistema de daño dinámico y cooldown con `requestAnimationFrame`
+## 🧠 Arquitectura del proyecto
+
+El proyecto está dividido en dos etapas:
+
+### 🔹 Stage 1 – Selección y preparación
+- Consumo de PokeAPI (`fetchPokemon`, `fetchMoves`)
+- Manejo de estado del jugador y oponente
+- Render modular (`render.js`)
+- Sistema de búsqueda con debounce
+- Persistencia con `localStorage`
+- Botón de transición a batalla
+
+### 🔹 Stage 2 – Sistema de batalla
+- Sistema de combate en tiempo real
+- HP dinámico para jugador y enemigo
+- Ataques con cálculo de daño aleatorio
+- Sistema de cooldown para ataques
+- Loop automático de ataques del enemigo
+- Posicionamiento en arena (3 lanes)
+- Log de batalla en vivo
+- Efectos visuales (hit / dodge / shake)
+- Ultimate move con condición de uso
 
 ---
 
-## ⚠️ Problemas conocidos
+## ⚙️ Tecnologías usadas
 
-- Pequeñas optimizaciones pendientes en limpieza de eventos
-- Algunas animaciones son básicas
-- El balance de daño es aleatorio por diseño
-
----
-
-## 🚀 Deploy
-
-GitHub Pages:  
-(TU LINK AQUÍ)
+- HTML5
+- CSS3 (Grid + animaciones)
+- JavaScript (ES Modules)
+- PokeAPI
+- LocalStorage
 
 ---
 
-## 📁 Estructura
+## 🎯 Features destacadas
 
-- `stage-1/` → selección de Pokémon
-- `stage-2/` → batalla en tiempo real
-- `trainer.config.js` → configuración personal
-- `index.html` → navegación principal
+- Arquitectura basada en estado centralizado
+- Render manual optimizado (sin frameworks)
+- Sistema de combate en tiempo real
+- IA básica de enemigo con ataques automáticos
+- UX con feedback visual (cooldowns, animaciones, logs)
+
+---
+
+## 💡 Puntos retadores
+
+- Sincronización entre estado del juego y render UI
+- Manejo de timers (cooldowns + enemigo + animaciones)
+- Control de estado global sin librerías externas
+
+---
+
+## 📁 Cómo ejecutar
+
+1. Clonar el repositorio
+2. Abrir `stage-1/index.html`
+3. Buscar un Pokémon
+4. Iniciar batalla desde el botón
