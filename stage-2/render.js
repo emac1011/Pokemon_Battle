@@ -150,6 +150,7 @@ function renderLog(state) {
 // ---------------------------
 // CONTROLES (MOVES 2x2 GRID)
 // ---------------------------
+
 function renderControls(state) {
   const attackContainer = document.getElementById("moves-container");
 
@@ -164,9 +165,11 @@ function renderControls(state) {
     <div class="moves-grid">
       ${moves
         .map((move, i) => {
+          const name = move?.name || "???";
+
           return `
             <button class="move-btn" data-move="${i}" ${disabled ? "disabled" : ""}>
-              ${move.name}
+              ${name}
             </button>
           `;
         })

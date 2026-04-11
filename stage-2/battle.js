@@ -42,10 +42,17 @@ export function initBattle() {
   const opponentStored = JSON.parse(localStorage.getItem("opponentData"));
 
   const player = playerStored.data;
-  const opponent = opponentStored.data;
+const opponent = opponentStored.data;
 
-  state.player = player;
-  state.opponent = opponent;
+state.player = {
+  ...player,
+  moves: playerStored.moves || []
+};
+
+state.opponent = {
+  ...opponent,
+  moves: opponentStored.moves || []
+};
 
   state.playerHP = Math.floor(getStat(player, "hp") * 2.5);
   state.opponentHP = Math.floor(getStat(opponent, "hp") * 2.5);
@@ -91,11 +98,14 @@ export function calcEnemyDamage() {
 // ---------------------------
 export function playerAttack(move) {
   if (state.attackOnCooldown || state.phase !== "fighting") return;
+  if (!move) return; // ✅ protección clave
 
   const damage = calcPlayerDamage(move);
   state.opponentHP -= damage;
 
-  state.log.push(`You used ${move.name}! (${damage} dmg)`);
+  const moveName = move?.name || "Unknown move";
+
+  state.log.push(`You used ${moveName}! (${damage} dmg)`);
 
   startCooldown();
   checkBattleEnd();

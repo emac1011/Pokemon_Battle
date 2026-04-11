@@ -313,9 +313,6 @@ button:disabled {
   box-shadow: 0 0 20px rgba(0, 255, 120, 0.6);
 }
 
-body {
-  font-family: "Press Start 2P", monospace;
-}
 
 /* ---------------------------
    GRID 2x2 MOVES
