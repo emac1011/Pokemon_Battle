@@ -292,3 +292,23 @@ button:disabled {
   box-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
   transition: background 0.2s ease;
 }
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 0.3s ease;
+}
+
+.hit-flash {
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+}
+
+.dodge-flash {
+  box-shadow: 0 0 20px rgba(0, 255, 120, 0.6);
+}

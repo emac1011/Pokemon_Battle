@@ -15,10 +15,13 @@ export const state = {
   incomingAttack: null,
   player: null,
   opponent: null,
+
+  // UI effects (IMPORTANTE para render)
+  hitEffect: null,
 };
 
 // ---------------------------
-// RENDER INJECTION (IMPORTANTE)
+// RENDER INJECTION
 // ---------------------------
 let renderFn = null;
 
@@ -32,7 +35,7 @@ export function setRender(fn) {
 let attackTimeout = null;
 
 // ---------------------------
-// INIT FROM LOCALSTORAGE
+// INIT
 // ---------------------------
 export function initBattle() {
   const playerStored = JSON.parse(localStorage.getItem("playerData"));
@@ -58,9 +61,6 @@ function getStat(pokemon, statName) {
   return stat ? stat.base_stat : 0;
 }
 
-// ---------------------------
-// WAIT
-// ---------------------------
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -98,7 +98,6 @@ export function playerAttack(move) {
   state.log.push(`You used ${move.name}! (${damage} dmg)`);
 
   startCooldown();
-
   checkBattleEnd();
 
   renderFn && renderFn(state);
@@ -111,7 +110,6 @@ export function useDefinitive() {
   if (state.definitiveUsed || state.phase !== "fighting") return;
 
   state.definitiveUsed = true;
-
   state.opponentHP = 0;
 
   state.log.push(
@@ -144,7 +142,7 @@ function scheduleNextAttack() {
 }
 
 // ---------------------------
-// ENEMY ATTACK (TELEGRAPH)
+// ENEMY ATTACK (CLEAN VERSION)
 // ---------------------------
 async function resolveEnemyAttack() {
   const targetCell = Math.floor(Math.random() * 3) + 1;
@@ -154,25 +152,35 @@ async function resolveEnemyAttack() {
 
   renderFn && renderFn(state);
 
-  // warning window
   await wait(600);
 
   state.locked = true;
 
   const hit = state.playerPosition === targetCell;
+  const dmg = hit ? calcEnemyDamage() : 0;
 
   if (hit) {
-    state.playerHP -= calcEnemyDamage();
-    state.log.push("💥 Hit! You took damage.");
+    state.playerHP -= dmg;
+    state.log.push(`💥 Hit! -${dmg}`);
+    state.hitEffect = "hit";
   } else {
     state.log.push("✨ Dodged!");
+    state.hitEffect = "dodge";
   }
 
   state.incomingAttack = null;
+
+  renderFn && renderFn(state);
+
+  // limpiar efecto (IMPORTANTE para no acumular estado visual)
+  setTimeout(() => {
+    state.hitEffect = null;
+    renderFn && renderFn(state);
+  }, 200);
+
   state.locked = false;
 
   checkBattleEnd();
-
   renderFn && renderFn(state);
 }
 
