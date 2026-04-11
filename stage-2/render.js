@@ -151,11 +151,16 @@ function renderLog(state) {
 
 function renderControls(state) {
   const attackContainer = document.getElementById("moves-container");
+  const ultimateBtn = document.getElementById("ultimate-btn");
 
   if (!attackContainer) return;
   if (!state.player?.moves) return;
 
-  const disabled = state.attackOnCooldown || state.phase !== "fighting";
+  // ---------------------------
+  // DESHABILITAR ATAQUES NORMALES
+  // ---------------------------
+  const disabled =
+    state.attackOnCooldown || state.phase !== "fighting";
 
   const moves = state.player.moves.slice(0, 4);
 
@@ -166,7 +171,11 @@ function renderControls(state) {
           const name = move?.name || "???";
 
           return `
-            <button class="move-btn" data-move="${i}" ${disabled ? "disabled" : ""}>
+            <button 
+              class="move-btn" 
+              data-move="${i}" 
+              ${disabled ? "disabled" : ""}
+            >
               ${name}
             </button>
           `;
@@ -174,6 +183,18 @@ function renderControls(state) {
         .join("")}
     </div>
   `;
+
+  // ---------------------------
+  // DESHABILITAR ULTIMATE ( FIX CLAVE)
+  // ---------------------------
+  if (ultimateBtn) {
+    const ultimateDisabled =
+      state.phase !== "fighting" ||
+      state.definitiveUsed ||
+      state.ultimateOnCooldown;
+
+    ultimateBtn.disabled = ultimateDisabled;
+  }
 }
 
 // ---------------------------

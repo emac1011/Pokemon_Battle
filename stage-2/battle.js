@@ -4,6 +4,7 @@ import TRAINER from "../trainer.config.js";
 // STATE
 // ---------------------------
 export const state = {
+  ultimateOnCooldown: false,
   playerHP: 0,
   opponentHP: 0,
   playerPosition: 2,
@@ -16,7 +17,7 @@ export const state = {
   player: null,
   opponent: null,
 
-  // UI effects (IMPORTANTE para render)
+  // UI effects
   hitEffect: null,
 };
 
@@ -42,17 +43,17 @@ export function initBattle() {
   const opponentStored = JSON.parse(localStorage.getItem("opponentData"));
 
   const player = playerStored.data;
-const opponent = opponentStored.data;
+  const opponent = opponentStored.data;
 
-state.player = {
-  ...player,
-  moves: playerStored.moves || []
-};
+  state.player = {
+    ...player,
+    moves: playerStored.moves || [],
+  };
 
-state.opponent = {
-  ...opponent,
-  moves: opponentStored.moves || []
-};
+  state.opponent = {
+    ...opponent,
+    moves: opponentStored.moves || [],
+  };
 
   state.playerHP = Math.floor(getStat(player, "hp") * 2.5);
   state.opponentHP = Math.floor(getStat(opponent, "hp") * 2.5);
@@ -64,12 +65,12 @@ state.opponent = {
 // HELPERS
 // ---------------------------
 function getStat(pokemon, statName) {
-  const stat = pokemon.stats.find(s => s.stat.name === statName);
+  const stat = pokemon.stats.find((s) => s.stat.name === statName);
   return stat ? stat.base_stat : 0;
 }
 
 function wait(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 // ---------------------------
@@ -98,18 +99,18 @@ export function calcEnemyDamage() {
 // ---------------------------
 export function playerAttack(move) {
   if (state.attackOnCooldown || state.phase !== "fighting") return;
-  if (!move) return; // ✅ protección clave
+  if (!move) return;
 
   const damage = calcPlayerDamage(move);
   state.opponentHP -= damage;
 
   const moveName = move?.name || "Unknown move";
-
   state.log.push(`You used ${moveName}! (${damage} dmg)`);
 
   startCooldown();
-  checkBattleEnd();
+  startUltimateCooldown(); //  FIX IMPORTANTE
 
+  checkBattleEnd();
   renderFn && renderFn(state);
 }
 
@@ -118,6 +119,7 @@ export function playerAttack(move) {
 // ---------------------------
 export function useDefinitive() {
   if (state.definitiveUsed || state.phase !== "fighting") return;
+  if (state.ultimateOnCooldown) return;
 
   state.definitiveUsed = true;
   state.opponentHP = 0;
@@ -127,7 +129,6 @@ export function useDefinitive() {
   );
 
   checkBattleEnd();
-
   renderFn && renderFn(state);
 }
 
@@ -140,7 +141,7 @@ export function startEnemyLoop(render) {
 }
 
 function scheduleNextAttack() {
-  const delay = (2 + Math.random() * 2) * 1000;
+  const delay = (2 + Math.random() * 2) * 1000; //  2–4s
 
   attackTimeout = setTimeout(async () => {
     await resolveEnemyAttack();
@@ -152,7 +153,7 @@ function scheduleNextAttack() {
 }
 
 // ---------------------------
-// ENEMY ATTACK (CLEAN VERSION)
+// ENEMY ATTACK
 // ---------------------------
 async function resolveEnemyAttack() {
   const targetCell = Math.floor(Math.random() * 3) + 1;
@@ -182,7 +183,6 @@ async function resolveEnemyAttack() {
 
   renderFn && renderFn(state);
 
-  // limpiar efecto (IMPORTANTE para no acumular estado visual)
   setTimeout(() => {
     state.hitEffect = null;
     renderFn && renderFn(state);
@@ -195,12 +195,12 @@ async function resolveEnemyAttack() {
 }
 
 // ---------------------------
-// COOLDOWN
+// COOLDOWN (ATAQUES NORMALES MÁS LENTOS)
 // ---------------------------
 function startCooldown() {
   state.attackOnCooldown = true;
 
-  const duration = 2000 + Math.random() * 2000;
+  const duration = 3500 + Math.random() * 2500; //  más lento
   const start = performance.now();
 
   function tick(now) {
@@ -219,6 +219,22 @@ function startCooldown() {
   }
 
   requestAnimationFrame(tick);
+}
+
+// ---------------------------
+// ULTIMATE COOLDOWN (FIX REAL)
+// ---------------------------
+function startUltimateCooldown() {
+  if (state.ultimateOnCooldown) return;
+
+  state.ultimateOnCooldown = true;
+
+  const duration = 5000;
+
+  setTimeout(() => {
+    state.ultimateOnCooldown = false;
+    renderFn && renderFn(state);
+  }, duration);
 }
 
 // ---------------------------
