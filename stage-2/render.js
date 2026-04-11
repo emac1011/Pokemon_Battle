@@ -30,9 +30,7 @@ function applyHitEffects(state) {
     
   }
 
-  if (state.hitEffect === "dodge") {
-    container.classList.add("dodge-flash");
-  }
+  
 }
 
 

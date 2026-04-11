@@ -4,9 +4,69 @@
 body {
   margin: 0;
   font-family: monospace;
-  background: #0a0a0a;
   color: #eee;
   text-align: center;
+  background: black;
+}
+
+#battle-layout {
+  position: relative;
+
+  background: rgba(0, 0, 0, 0.55); /* overlay oscuro */
+  
+  border-radius: 10px;
+
+  padding: 15px;
+
+  backdrop-filter: blur(3px); /* efecto pro (si el navegador lo soporta) */
+}
+
+#battle-arena {
+  position: relative;
+
+  background: black; /* overlay oscuro */
+  
+  border-radius: 10px;
+
+  padding: 15px;
+
+  
+}
+
+#bg {
+  position: fixed;
+  inset: 0;
+
+  background: url("./img/cueva.jpg") no-repeat center center;
+
+  /* clave del ajuste */
+  background-size: 140% auto;   /* más ancho */
+  background-position: center 30%; /* sube/baja verticalmente */
+
+  z-index: -10;
+  pointer-events: none;
+}
+
+#bg::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+}
+
+#controls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 300px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  z-index: 10;
 }
 
 /* ---------------------------
@@ -218,7 +278,11 @@ button:disabled {
   width: 100%;
   height: 150px;
   margin: 10px 0;
+
+  transform: translateY(-16px); /*  SUBE TODO EL SISTEMA */
 }
+
+
 
 /* celdas visibles */
 .arena-cell {
@@ -237,7 +301,7 @@ button:disabled {
 /* sprite grande */
 #player-sprite {
   position: absolute;
-  bottom: 0;
+  bottom: 100;
   width: 120px;
   image-rendering: pixelated;
   transition: left 0.15s ease;
