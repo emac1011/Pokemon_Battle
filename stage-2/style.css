@@ -1,0 +1,175 @@
+/* ---------------------------
+   GLOBAL
+--------------------------- */
+body {
+  margin: 0;
+  font-family: monospace;
+  background: #0a0a0a;
+  color: #eee;
+  text-align: center;
+}
+
+/* ---------------------------
+   TITULO
+--------------------------- */
+h1 {
+  color: #00aaff;
+  margin: 10px 0;
+}
+
+/* ---------------------------
+   LAYOUT GENERAL
+--------------------------- */
+section {
+  margin: 10px auto;
+  padding: 10px;
+}
+
+/* ---------------------------
+   INFO SECTIONS
+--------------------------- */
+#player-section,
+#opponent-section {
+  display: inline-block;
+  width: 200px;
+}
+
+img {
+  width: 120px;
+  height: 120px;
+  image-rendering: pixelated;
+}
+
+/* ---------------------------
+   HP BAR
+--------------------------- */
+.hp-bar {
+  width: 100%;
+  height: 10px;
+  background: #222;
+  border: 1px solid #444;
+  margin-top: 5px;
+  overflow: hidden;
+}
+
+#player-hp,
+#opponent-hp {
+  height: 100%;
+  width: 100%;
+  background: #00ff66;
+  transition: width 0.2s linear;
+}
+
+/* HP bajo */
+.low-hp {
+  background: #ff4444 !important;
+}
+
+/* ---------------------------
+   ARENA
+--------------------------- */
+#arena {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+/* CELDAS */
+.cell {
+  width: 60px;
+  height: 60px;
+  background: #111;
+  border: 2px solid #333;
+  transition: all 0.2s ease;
+}
+
+/* ---------------------------
+   PLAYER POSITION
+--------------------------- */
+.cell.active {
+  background: #00aaff;
+  box-shadow: 0 0 10px #00aaff;
+}
+
+/* ---------------------------
+   ATTACK WARNING
+--------------------------- */
+.cell.incoming {
+  background: #ff4444;
+  animation: pulse 0.5s infinite alternate;
+}
+
+/* ---------------------------
+   HIT EFFECT (opcional futuro)
+--------------------------- */
+.cell.hit {
+  background: #ff8800;
+}
+
+/* ---------------------------
+   ANIMACIÓN WARNING
+--------------------------- */
+@keyframes pulse {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+/* ---------------------------
+   CONTROLS
+--------------------------- */
+button {
+  padding: 8px 12px;
+  margin: 5px;
+  background: #111;
+  color: #00aaff;
+  border: 1px solid #00aaff;
+  cursor: pointer;
+  font-family: monospace;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------------------------
+   COOLDOWN BAR
+--------------------------- */
+#cooldown-bar {
+  width: 200px;
+  height: 6px;
+  background: #00aaff;
+  margin: 10px auto;
+  transition: width 0.05s linear;
+}
+
+/* ---------------------------
+   LOG
+--------------------------- */
+#log {
+  height: 120px;
+  overflow-y: auto;
+  background: #111;
+  border: 1px solid #333;
+  padding: 5px;
+  font-size: 12px;
+  text-align: left;
+}
+
+/* ---------------------------
+   RESET BUTTON
+--------------------------- */
+#reset-btn {
+  margin-top: 10px;
+  padding: 10px;
+  background: #ff4444;
+  color: white;
+  border: none;
+}

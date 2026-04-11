@@ -9,44 +9,49 @@
 
   <h1>Battle Arena</h1>
 
-  <!-- PLAYER -->
-  <section id="player-section">
-    <h2 id="player-name"></h2>
-    <img id="player-sprite" />
-    <div class="hp-bar">
-      <div id="player-hp"></div>
-    </div>
-  </section>
+  <button id="back-btn">← Volver</button>
 
-  <!-- ARENA -->
-  <section id="arena">
-    <div id="opponent-row" class="row">
-      <div class="cell" data-pos="1"></div>
-      <div class="cell" data-pos="2"></div>
-      <div class="cell" data-pos="3"></div>
-    </div>
+  <div id="battle-layout">
 
-    <div id="player-row" class="row">
-      <div class="cell" data-pos="1"></div>
-      <div class="cell" data-pos="2"></div>
-      <div class="cell" data-pos="3"></div>
-    </div>
-  </section>
+    <!-- OPONENTE (arriba derecha) -->
+    <section id="opponent-section">
+      <h2 id="opponent-name"></h2>
+      <img id="opponent-sprite" />
+      <div class="hp-bar">
+        <div id="opponent-hp"></div>
+      </div>
+    </section>
 
-  <!-- OPPONENT -->
-  <section id="opponent-section">
-    <h2 id="opponent-name"></h2>
-    <img id="opponent-sprite" />
-    <div class="hp-bar">
-      <div id="opponent-hp"></div>
-    </div>
-  </section>
+    <!-- ARENA (centro) -->
+    <section id="arena">
+      <div id="opponent-row" class="row">
+        <div class="cell" data-pos="1"></div>
+        <div class="cell" data-pos="2"></div>
+        <div class="cell" data-pos="3"></div>
+      </div>
 
-  <!-- CONTROLS -->
+      <div id="player-row" class="row">
+        <div class="cell" data-pos="1"></div>
+        <div class="cell" data-pos="2"></div>
+        <div class="cell" data-pos="3"></div>
+      </div>
+    </section>
+
+    <!-- PLAYER (abajo izquierda) -->
+    <section id="player-section">
+      <h2 id="player-name"></h2>
+      <img id="player-sprite" />
+      <div class="hp-bar">
+        <div id="player-hp"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- CONTROLES -->
   <section id="controls">
     <button id="attack-btn">Attack</button>
     <div id="cooldown-bar"></div>
-
     <button id="ultimate-btn">Ultimate</button>
   </section>
 
