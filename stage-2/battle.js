@@ -1,8 +1,7 @@
-// battle.js
 import TRAINER from "../trainer.config.js";
 
 // ---------------------------
-// STATE 
+// STATE
 // ---------------------------
 export const state = {
   playerHP: 0,
@@ -14,9 +13,22 @@ export const state = {
   phase: "fighting",
   log: [],
   incomingAttack: null,
+  player: null,
+  opponent: null,
 };
 
-// timers
+// ---------------------------
+// RENDER INJECTION (IMPORTANTE)
+// ---------------------------
+let renderFn = null;
+
+export function setRender(fn) {
+  renderFn = fn;
+}
+
+// ---------------------------
+// TIMERS
+// ---------------------------
 let attackTimeout = null;
 
 // ---------------------------
@@ -46,12 +58,15 @@ function getStat(pokemon, statName) {
   return stat ? stat.base_stat : 0;
 }
 
+// ---------------------------
+// WAIT
+// ---------------------------
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // ---------------------------
-// DAMAGE FORMULAS
+// DAMAGE
 // ---------------------------
 export function calcPlayerDamage(move) {
   const power = move.power || 60;
@@ -85,6 +100,8 @@ export function playerAttack(move) {
   startCooldown();
 
   checkBattleEnd();
+
+  renderFn && renderFn(state);
 }
 
 // ---------------------------
@@ -95,60 +112,68 @@ export function useDefinitive() {
 
   state.definitiveUsed = true;
 
-  const damage = state.opponentHP;
   state.opponentHP = 0;
 
-  state.log.push(`${TRAINER.ultimateMoveName} — ${TRAINER.ultimateMoveFlavor}`);
+  state.log.push(
+    `${TRAINER.ultimateMoveName} — ${TRAINER.ultimateMoveFlavor}`
+  );
 
   checkBattleEnd();
+
+  renderFn && renderFn(state);
 }
 
 // ---------------------------
-// ENEMY LOOP (CRÍTICO)
+// ENEMY LOOP
 // ---------------------------
 export function startEnemyLoop(render) {
-  scheduleNextAttack(render);
+  setRender(render);
+  scheduleNextAttack();
 }
 
-function scheduleNextAttack(render) {
+function scheduleNextAttack() {
   const delay = (3 + Math.random() * 7) * 1000;
 
   attackTimeout = setTimeout(async () => {
-    await resolveEnemyAttack(render);
+    await resolveEnemyAttack();
 
     if (state.phase === "fighting") {
-      scheduleNextAttack(render);
+      scheduleNextAttack();
     }
   }, delay);
 }
 
-async function resolveEnemyAttack(render) {
-  const target = Math.floor(Math.random() * 3) + 1;
+// ---------------------------
+// ENEMY ATTACK (TELEGRAPH)
+// ---------------------------
+async function resolveEnemyAttack() {
+  const targetCell = Math.floor(Math.random() * 3) + 1;
 
-  state.incomingAttack = target;
+  state.incomingAttack = targetCell;
   state.locked = false;
 
-  state.log.push(`Enemy targets position ${target}`);
-  render(state);
+  renderFn && renderFn(state);
 
+  // warning window
   await wait(600);
 
   state.locked = true;
-  render(state);
 
-  if (state.playerPosition === target) {
-    const damage = calcEnemyDamage();
-    state.playerHP -= damage;
-    state.log.push(`Hit! You took ${damage}`);
+  const hit = state.playerPosition === targetCell;
+
+  if (hit) {
+    state.playerHP -= calcEnemyDamage();
+    state.log.push("💥 Hit! You took damage.");
   } else {
-    state.log.push("Dodged!");
+    state.log.push("✨ Dodged!");
   }
 
   state.incomingAttack = null;
   state.locked = false;
 
   checkBattleEnd();
-  render(state);
+
+  renderFn && renderFn(state);
 }
 
 // ---------------------------
@@ -161,8 +186,7 @@ function startCooldown() {
   const start = performance.now();
 
   function tick(now) {
-    const elapsed = now - start;
-    const pct = Math.min(elapsed / duration, 1);
+    const pct = Math.min((now - start) / duration, 1);
 
     const bar = document.getElementById("cooldown-bar");
     if (bar) {
@@ -186,12 +210,14 @@ function checkBattleEnd() {
   if (state.playerHP <= 0 || state.opponentHP <= 0) {
     state.phase = "ended";
 
+    clearTimeout(attackTimeout);
+
     if (state.playerHP <= 0) {
       state.log.push(TRAINER.loseMessage);
     } else {
       state.log.push(TRAINER.winMessage);
     }
 
-    clearTimeout(attackTimeout);
+    renderFn && renderFn(state);
   }
 }

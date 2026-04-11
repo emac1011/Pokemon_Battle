@@ -286,3 +286,9 @@ button:disabled {
   background: rgba(255, 0, 0, 0.3);
   border-radius: 6px;
 }
+
+.arena-cell.incoming {
+  background: rgba(255, 0, 0, 0.35);
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
+  transition: background 0.2s ease;
+}
