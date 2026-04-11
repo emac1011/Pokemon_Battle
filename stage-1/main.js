@@ -88,7 +88,7 @@ async function loadOpponentPokemon(name) {
   } finally {
     state.opponent.loading = false;
     render(state);
-    updateBattleBtn(); // ✅ Actualizamos el botón
+    updateBattleBtn(); //  Actualizamos el botón
   }
 }
 
@@ -137,7 +137,7 @@ function init() {
       localStorage.setItem("opponentData", JSON.stringify(state.opponent));
 
       // Redirigir a Stage 2
-      window.location.href = "stage-2/index.html";
+      window.location.href = "../stage-2/index.html";
     });
   }
 

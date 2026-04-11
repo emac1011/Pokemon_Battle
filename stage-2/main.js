@@ -2,7 +2,7 @@ import { state, initBattle, startEnemyLoop, playerAttack, useDefinitive } from "
 import { render } from "./render.js";
 
 // ---------------------------
-// KEYBOARD HANDLER (OBLIGATORIO)
+// KEYBOARD HANDLER
 // ---------------------------
 function onKeyDown(e) {
   if (state.phase !== "fighting") return;
@@ -26,27 +26,32 @@ function init() {
   initBattle();
   render(state);
 
-  //  Registrar UNA SOLA VEZ
-  document.addEventListener("keydown", onKeyDown);
+  // BACK BUTTON
+  const backBtn = document.getElementById("back-btn");
 
-  // ---------------------------
-  // ATTACK BUTTON
-  // ---------------------------
-  const attackBtn = document.getElementById("attack-btn");
-
-  if (attackBtn) {
-    attackBtn.addEventListener("click", () => {
-      if (!state.player || !state.player.moves?.length) return;
-
-      const move = state.player.moves[0]; // usamos el primer move
-      playerAttack(move);
-      render(state);
+  if (backBtn) {
+    backBtn.addEventListener("click", () => {
+      window.location.href = "../stage-1/index.html";
     });
   }
 
-  // ---------------------------
+  // KEYBOARD (SOLO UNA VEZ)
+  document.addEventListener("keydown", onKeyDown);
+
+  // ATTACK BUTTONS (MOVES)
+  document.addEventListener("click", (e) => {
+    if (!e.target.classList.contains("move-btn")) return;
+
+    const index = Number(e.target.dataset.move);
+    const move = state.player.moves[index];
+
+    if (move) {
+      playerAttack(move);
+      render(state);
+    }
+  });
+
   // DEFINITIVE BUTTON
-  // ---------------------------
   const ultimateBtn = document.getElementById("ultimate-btn");
 
   if (ultimateBtn) {
@@ -56,9 +61,7 @@ function init() {
     });
   }
 
-  // ---------------------------
   // RESET BUTTON
-  // ---------------------------
   const resetBtn = document.getElementById("reset-btn");
 
   if (resetBtn) {
@@ -67,17 +70,14 @@ function init() {
     });
   }
 
-  // ---------------------------
-  // START ENEMY LOOP
-  // ---------------------------
+  // ENEMY LOOP
   startEnemyLoop(render);
 }
 
 // ---------------------------
-// RESET (OBLIGATORIO)
+// RESET
 // ---------------------------
 function resetBattle() {
-  // reset state manual (sin recargar)
   state.playerHP = Math.floor(getStat(state.player, "hp") * 2.5);
   state.opponentHP = Math.floor(getStat(state.opponent, "hp") * 2.5);
   state.playerPosition = 2;
@@ -89,15 +89,18 @@ function resetBattle() {
   state.incomingAttack = null;
 
   render(state);
-
   startEnemyLoop(render);
 }
 
-// helper duplicado (simple)
+// ---------------------------
+// HELPER
+// ---------------------------
 function getStat(pokemon, statName) {
   const stat = pokemon.stats.find(s => s.stat.name === statName);
   return stat ? stat.base_stat : 0;
 }
 
+// ---------------------------
+// START
 // ---------------------------
 document.addEventListener("DOMContentLoaded", init);

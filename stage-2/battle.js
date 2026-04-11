@@ -229,3 +229,4 @@ function checkBattleEnd() {
     renderFn && renderFn(state);
   }
 }
+

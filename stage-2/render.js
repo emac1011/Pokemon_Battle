@@ -126,16 +126,24 @@ function renderLog(state) {
 // CONTROLS
 // ---------------------------
 function renderControls(state) {
-  const attackBtn = document.getElementById("attack-btn");
-  const ultimateBtn = document.getElementById("ultimate-btn");
+  const attackContainer = document.getElementById("moves-container");
 
-  if (attackBtn) {
-    attackBtn.disabled = state.attackOnCooldown || state.phase !== "fighting";
-  }
+  if (!attackContainer) return;
 
-  if (ultimateBtn) {
-    ultimateBtn.disabled = state.definitiveUsed || state.phase !== "fighting";
-  }
+  if (!state.player?.moves) return;
+
+  attackContainer.innerHTML = state.player.moves
+    .slice(0, 4)
+    .map((move, i) => {
+      const disabled = state.attackOnCooldown || state.phase !== "fighting";
+
+      return `
+        <button class="move-btn" data-move="${i}" ${disabled ? "disabled" : ""}>
+          ${move.name}
+        </button>
+      `;
+    })
+    .join("");
 }
 
 // ---------------------------
