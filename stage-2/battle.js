@@ -140,7 +140,7 @@ export function startEnemyLoop(render) {
 }
 
 function scheduleNextAttack() {
-  const delay = (3 + Math.random() * 7) * 1000;
+  const delay = (3 + Math.random() * 2) * 1000;
 
   attackTimeout = setTimeout(async () => {
     await resolveEnemyAttack();
